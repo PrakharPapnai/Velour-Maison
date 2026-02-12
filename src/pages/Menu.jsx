@@ -9,7 +9,7 @@ const menuItems = [
 ];
 
 export default function Menu() {
-  const { addToCart, cart } = useCart();
+  const { addToCart,updateQuantity, cart } = useCart();
   const navigate = useNavigate();
 
   return (
@@ -42,12 +42,37 @@ export default function Menu() {
               </div>
               
 
-              <button
-                onClick={() => addToCart(item)}
-                className="mt-4 w-full bg-dark text-white py-2 rounded-xl"
-              >
-                Add to Order
-              </button>
+              {cart.find((i) => i.id === item.id) ? (
+  <div className="mt-4 flex items-center justify-between bg-white border border-softgray rounded-xl px-4 py-2 shadow-sm">
+
+    <button
+      onClick={() => updateQuantity(item.id, -1)}
+      className="text-lg font-medium"
+    >
+      -
+    </button>
+
+    <span>
+      {cart.find((i) => i.id === item.id).quantity}
+    </span>
+
+    <button
+      onClick={() => updateQuantity(item.id, 1)}
+      className="text-lg font-medium"
+    >
+      +
+    </button>
+
+  </div>
+) : (
+  <button
+    onClick={() => addToCart(item)}
+    className="mt-4 w-full bg-dark text-white py-2 rounded-xl"
+  >
+    Add to Order
+  </button>
+)}
+
             </div>
           ))}
         </div>
